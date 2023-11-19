@@ -1,4 +1,4 @@
 ﻿namespace Domain.Permisos
 {
-    public record PermisoId(int Id);
+    public record PermisoId(int value);
 }
