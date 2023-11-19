@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Persistence;
+using Web.Api.Options;
 
 namespace Web.Api
 {
@@ -5,18 +9,36 @@ namespace Web.Api
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.ConfigureOptions<DatabaseOptionsSetup>();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                (ServiceProvider, DbContextOptionsBuilder) =>
+                {
+                    DatabaseOptions databaseOptions = ServiceProvider.GetService<IOptions<DatabaseOptions>>()!.Value;
+                    DbContextOptionsBuilder.UseSqlServer(databaseOptions.ConnectionString, sqlServerAction =>
+                    {
+                        sqlServerAction.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
+                        sqlServerAction.CommandTimeout(databaseOptions.CommandTimeout);
+                    });
+                    DbContextOptionsBuilder.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
+                    DbContextOptionsBuilder.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
+                });
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.EnsureCreated();
+                context.Database.Migrate();
+            }
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

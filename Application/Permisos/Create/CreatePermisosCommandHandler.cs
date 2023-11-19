@@ -1,20 +1,14 @@
 ﻿using Domain.Abstractions;
 using Domain.Permisos;
-using Domain.TipoPermiso;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Permisos.Create
 {
     internal class CreatePermisosCommandHandler : IRequestHandler<CreatePermisosCommand>
     {
-        private readonly IPermisosRepository _permisoRepository;
+        private readonly IPermisoRepository _permisoRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CreatePermisosCommandHandler(IPermisosRepository permisoRepository, IUnitOfWork unitOfWork)
+        public CreatePermisosCommandHandler(IPermisoRepository permisoRepository, IUnitOfWork unitOfWork)
         {
             _permisoRepository = permisoRepository;
             _unitOfWork = unitOfWork;
@@ -22,12 +16,12 @@ namespace Application.Permisos.Create
 
         public async Task Handle(CreatePermisosCommand request, CancellationToken cancellationToken)
         {
-            var permiso = new Domain.Permisos.Permisos(
-                id: new PermisoId(1),
-                Nombre: request.Nombre,
-                Apellido: request.Apellido,
-                Tipo: new TipoPermisos(),
-                Fecha: request.Fecha
+            Permiso permiso = new(
+                Id: new PermisoId(1),
+                NombreEmpleado: request.Nombre,
+                ApellidoEmpleado: request.Apellido,
+                //TipoPermiso: new TipoPermiso(request.Tipo, ""),
+                FechaPermiso: request.Fecha
                 );
             _permisoRepository.Add(permiso);
 
