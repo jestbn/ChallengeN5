@@ -1,4 +1,4 @@
-﻿namespace Application.Permisos.Response
+﻿namespace Domain.Shared
 {
     public class Result
     {

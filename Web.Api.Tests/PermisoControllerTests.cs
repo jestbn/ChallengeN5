@@ -1,5 +1,5 @@
 using Application.Permisos.Create;
-using Application.Permisos.Response;
+using Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Web.Api.Controllers;

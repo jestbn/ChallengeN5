@@ -1,6 +1,6 @@
-﻿using Application.Permisos.Response;
-using Domain.Abstractions;
+﻿using Domain.Abstractions;
 using Domain.Permisos;
+using Domain.Shared;
 using MediatR;
 
 namespace Application.Permisos.Create
