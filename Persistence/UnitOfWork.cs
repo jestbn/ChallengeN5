@@ -2,7 +2,7 @@
 
 namespace Persistence
 {
-    internal sealed class UnitOfWork : IUnitOfWork
+    public sealed class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _dbContext;
 

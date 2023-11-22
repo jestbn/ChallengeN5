@@ -14,10 +14,6 @@ namespace Persistence.Configurations
                 permisoId => permisoId.value,
                 value => new PermisoId(value))
                 .ValueGeneratedOnAdd();
-
-            /*builder.HasOne<TipoPermiso>(t => t.TipoPermiso)
-                .WithMany()
-                .HasForeignKey(p => p.TipoPermiso.Id);*/
         }
     }
 }

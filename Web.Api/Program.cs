@@ -1,6 +1,9 @@
+using Application.Permisos.Create;
+using Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Persistence;
+using Persistence.Repositories;
 using Web.Api.Options;
 
 namespace Web.Api
@@ -30,14 +33,17 @@ namespace Web.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            WebApplication app = builder.Build();
+            #region MediatR
+            builder.Services.AddMediatR(media => media.RegisterServicesFromAssembly(typeof(Application.Permisos.Create.CreatePermisosCommandHandler).Assembly));
+            builder.Services.AddTransient<CreatePermisosCommandHandler>();
+            #endregion
 
-            using (var scope = app.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                context.Database.EnsureCreated();
-                context.Database.Migrate();
-            }
+            builder.Services.AddTransient<IPermisoRepository, PermisoRepository>();
+            builder.Services.AddTransient<ITipoPermisoRepository, TipoPermisoRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+            WebApplication app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
@@ -48,7 +54,6 @@ namespace Web.Api
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

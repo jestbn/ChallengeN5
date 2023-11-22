@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Permisos.Response;
+using MediatR;
 
 namespace Application.Permisos.Create
 {
@@ -6,7 +7,7 @@ namespace Application.Permisos.Create
         string Nombre,
         string Apellido,
         int Tipo,
-        DateTime Fecha ) : IRequest
+        DateTime Fecha) : IRequest<Result>
     {
     }
 }
