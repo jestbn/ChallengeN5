@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Permisos.Get
 {
-    public record GetPermisoQuery(int Id) : IRequest<Result>
+    public record GetPermisosQuery() : IRequest<Result>
     {
     }
 }

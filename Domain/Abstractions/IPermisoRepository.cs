@@ -7,5 +7,7 @@ namespace Domain.Abstractions
         void Add(Permiso permisos);
 
         Permiso GetById(PermisoId Id);
+
+        Task<List<Permiso>> GetAll();
     }
 }

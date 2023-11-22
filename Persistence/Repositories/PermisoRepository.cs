@@ -19,6 +19,11 @@ namespace Persistence.Repositories
             else _context.Entry(permiso).State = EntityState.Modified;
         }
 
+        public async Task<List<Permiso>> GetAll()
+        {
+            return await _context.Set<Permiso>().Include(t => t.TipoPermiso).ToListAsync();
+        }
+
         public Permiso GetById(PermisoId Id)
         {
             var permiso = _context.Permisos.Find(Id);
