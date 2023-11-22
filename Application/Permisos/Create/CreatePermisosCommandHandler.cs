@@ -41,7 +41,7 @@ namespace Application.Permisos.Create
 
             _permisoRepository.Add(permiso);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.Commit(cancellationToken);
             return new Result { Success = true };
         }
     }
