@@ -5,12 +5,12 @@ using MediatR;
 
 namespace Application.Permisos.Create
 {
-    public class CreatePermisosCommandHandler : IRequestHandler<CreatePermisosCommand, Result>
+    public class CreatePermisoCommandHandler : IRequestHandler<CreatePermisoCommand, Result>
     {
         private readonly IPermisoRepository _permisoRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITipoPermisoRepository _tipoPermiso;
-        public CreatePermisosCommandHandler(
+        public CreatePermisoCommandHandler(
             IPermisoRepository permisoRepository,
             IUnitOfWork unitOfWork,
             ITipoPermisoRepository tipoPermiso)
@@ -20,15 +20,11 @@ namespace Application.Permisos.Create
             _tipoPermiso = tipoPermiso;
         }
 
-        public async Task<Result> Handle(CreatePermisosCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(CreatePermisoCommand request, CancellationToken cancellationToken)
         {
-            var tipo = _tipoPermiso.GetById(request.Tipo);
+            var tipo = _tipoPermiso.GetById(new Domain.TipoPermiso.TipoPermisoId(request.Tipo));
 
-            if (tipo is null)
-            {
-                return new Result { Success = false, Errors = new List<string> { "El tipo de permiso no existe" } };
-
-            }
+            if (tipo is null) return new Result("El tipo de permiso no existe");
 
             Permiso permiso = new(
                 NombreEmpleado: request.Nombre,
@@ -41,8 +37,8 @@ namespace Application.Permisos.Create
 
             _permisoRepository.Add(permiso);
 
-            await _unitOfWork.Commit(cancellationToken);
-            return new Result { Success = true };
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return new Result(permiso);
         }
     }
 }

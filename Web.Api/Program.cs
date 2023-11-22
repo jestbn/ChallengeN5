@@ -34,8 +34,8 @@ namespace Web.Api
             builder.Services.AddSwaggerGen();
 
             #region MediatR
-            builder.Services.AddMediatR(media => media.RegisterServicesFromAssembly(typeof(Application.Permisos.Create.CreatePermisosCommandHandler).Assembly));
-            builder.Services.AddTransient<CreatePermisosCommandHandler>();
+            builder.Services.AddMediatR(media => media.RegisterServicesFromAssembly(typeof(Application.Permisos.Create.CreatePermisoCommandHandler).Assembly));
+            builder.Services.AddTransient<CreatePermisoCommandHandler>();
             #endregion
 
             builder.Services.AddTransient<IPermisoRepository, PermisoRepository>();

@@ -12,20 +12,17 @@ namespace Web.Api.Tests
         public async Task PermisoController_CreatePermiso_OK()
         {
             //arrage
-            var request = new CreatePermisosCommand(
+            var request = new CreatePermisoCommand(
                "Name",
                "Surname",
                1,
                DateTime.Now);
 
-            var moqResult = new Result()
-            {
-                Success = true
-            };
+            var moqResult = new Result(It.IsAny<object>());
 
             var service = new Mock<IMediator>();
             service.Setup(
-                x => x.Send(It.IsAny<CreatePermisosCommand>(), It.IsAny<CancellationToken>())
+                x => x.Send(It.IsAny<CreatePermisoCommand>(), It.IsAny<CancellationToken>())
                 )
                 .ReturnsAsync(moqResult);
 
@@ -44,20 +41,17 @@ namespace Web.Api.Tests
         public async Task PermisoController_CreatePermiso_BadRequest()
         {
             //arrage
-            var request = new CreatePermisosCommand(
+            var request = new CreatePermisoCommand(
                "Name",
                "Surname",
                1,
                DateTime.Now);
 
-            var moqResult = new Result()
-            {
-                Success = false
-            };
+            var moqResult = new Result("");
 
             var service = new Mock<IMediator>();
             service.Setup(
-                x => x.Send(It.IsAny<CreatePermisosCommand>(), It.IsAny<CancellationToken>())
+                x => x.Send(It.IsAny<CreatePermisoCommand>(), It.IsAny<CancellationToken>())
                 )
                 .ReturnsAsync(moqResult);
 

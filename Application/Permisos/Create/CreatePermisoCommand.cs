@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Permisos.Create
 {
-    public record CreatePermisosCommand(
+    public record CreatePermisoCommand(
         string Nombre,
         string Apellido,
         int Tipo,

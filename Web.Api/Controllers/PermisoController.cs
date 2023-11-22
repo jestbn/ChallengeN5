@@ -1,4 +1,5 @@
 ﻿using Application.Permisos.Create;
+using Application.Permisos.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,16 @@ namespace Web.Api.Controllers
         }
 
         [HttpPost("Request")]
-        public async Task<IActionResult> Create(CreatePermisosCommand req, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create(CreatePermisoCommand req, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(req, cancellationToken);
+            if (result.Success) return Ok(result);
+            else
+                return BadRequest(result.Errors);
+        }
+
+        [HttpPut("Modify")]
+        public async Task<IActionResult> Update(UpdatePermisoCommand req, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(req, cancellationToken);
             if (result.Success) return Ok(result);

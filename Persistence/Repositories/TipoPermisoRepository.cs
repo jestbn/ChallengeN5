@@ -12,9 +12,9 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public TipoPermiso GetById(int Id)
+        public TipoPermiso GetById(TipoPermisoId Id)
         {
-            var tipo = _context.TipoPermisos.Where(x => x.Id.Equals(Id)).FirstOrDefault();
+            var tipo = _context.TipoPermisos.Find(Id);
             return tipo!;
         }
     }

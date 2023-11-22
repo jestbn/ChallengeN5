@@ -1,5 +1,6 @@
 ﻿using Domain.Abstractions;
 using Domain.Permisos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
@@ -12,9 +13,16 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public void Add(Permiso permisos)
+        public void Add(Permiso permiso)
         {
-            _context.Set<Permiso>().Add(permisos);
+            if (permiso.Id is null) _context.Set<Permiso>().Add(permiso);
+            else _context.Entry(permiso).State = EntityState.Modified;
+        }
+
+        public Permiso GetById(PermisoId Id)
+        {
+            var permiso = _context.Permisos.Find(Id);
+            return permiso!;
         }
     }
 }

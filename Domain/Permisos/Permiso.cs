@@ -15,5 +15,12 @@
         public string ApellidoEmpleado { get; private set; }
         public TipoPermiso.TipoPermiso TipoPermiso { get; set; }
         public DateTime FechaPermiso { get; private set; }
+
+        public void Update(string nombre, string apellido, DateTime fecha)
+        {
+            this.NombreEmpleado = nombre;
+            this.ApellidoEmpleado = apellido;
+            this.FechaPermiso = fecha;
+        }
     }
 }

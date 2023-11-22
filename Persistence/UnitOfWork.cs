@@ -11,7 +11,7 @@ namespace Persistence
             _dbContext = dbContext;
         }
 
-        public Task<int> Commit(CancellationToken cancellationToken = default)
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return _dbContext.SaveChangesAsync(cancellationToken);
         }
