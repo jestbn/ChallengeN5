@@ -1,35 +1,49 @@
 using Application.Permisos.Create;
-using Domain.Shared;
+using Domain.Permisos;
+using Domain.TipoPermiso;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using Web.Api.Controllers;
+using Result = Domain.Shared.Result;
 
 namespace Web.Api.Tests
 {
     public class PermisoControllerTests
     {
+        private Mock<IMediator> MoqMediator { get; set; } = new();
+        private Mock<IElasticClient> MoqElasticClient { get; set; } = new();
+        private PermisoController Controller { get; set; }
+
+        public PermisoControllerTests()
+        {
+            Controller = new PermisoController(MoqMediator.Object, MoqElasticClient.Object);
+        }
+
         [Fact]
         public async Task PermisoController_CreatePermiso_OK()
         {
-            //arrage
+            //arrange
             var request = new CreatePermisoCommand(
-               "Name",
+               "OK",
                "Surname",
                1,
                DateTime.Now);
 
-            var moqResult = new Result(It.IsAny<object>());
-
-            var service = new Mock<IMediator>();
-            service.Setup(
-                x => x.Send(It.IsAny<CreatePermisoCommand>(), It.IsAny<CancellationToken>())
+            var moqResult = new Result(new Permiso("", "", DateTime.Now, new TipoPermiso()));
+            MoqMediator.Setup(
+                    x => x.Send(request, It.IsAny<CancellationToken>())
                 )
                 .ReturnsAsync(moqResult);
-
-            var controller = new PermisoController(service.Object);
-
+            
+            var elasticResponse = new Mock<IndexResponse>();
+            elasticResponse.Setup(x=>x.IsValid).Returns(true);
+            MoqElasticClient.Setup(
+                x => x.IndexDocumentAsync(It.IsAny<object>(), It.IsAny<CancellationToken>())
+            ).ReturnsAsync(elasticResponse.Object);
+            
             //act
-            var result = await controller.Create(request);
+            var result = await Controller.Create(request);
 
             //assert
             Assert.NotNull(result);
@@ -40,25 +54,22 @@ namespace Web.Api.Tests
         [Fact]
         public async Task PermisoController_CreatePermiso_BadRequest()
         {
-            //arrage
+            //arrange
             var request = new CreatePermisoCommand(
-               "Name",
+               "Bad",
                "Surname",
                1,
                DateTime.Now);
 
-            var moqResult = new Result("");
+            var moqResult = new Result("X");
 
-            var service = new Mock<IMediator>();
-            service.Setup(
-                x => x.Send(It.IsAny<CreatePermisoCommand>(), It.IsAny<CancellationToken>())
+            MoqMediator.Setup(
+                x => x.Send(request, It.IsAny<CancellationToken>())
                 )
                 .ReturnsAsync(moqResult);
 
-            var controller = new PermisoController(service.Object);
-
             //act
-            var result = await controller.Create(request);
+            var result = await Controller.Create(request);
 
             //assert
             Assert.NotNull(result);
