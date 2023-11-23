@@ -27,8 +27,7 @@ namespace Application.Permisos.Update
             if (newtipo is null) return new Result("Nuevo tipo de permiso no existe ");
 
 
-            permiso.Update(request.Nombre, request.Apellido, request.Fecha);
-            permiso.TipoPermiso = newtipo;
+            permiso.Update(request.Nombre, request.Apellido, request.Fecha, newtipo);
 
             _permisoRepository.Add(permiso);
 
