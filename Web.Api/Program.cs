@@ -10,6 +10,8 @@ using Microsoft.Extensions.Options;
 using Nest;
 using Persistence;
 using Persistence.Repositories;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 using Web.Api.Options;
 
 namespace Web.Api
@@ -54,9 +56,23 @@ namespace Web.Api
 
             #endregion
 
-            #region ElasticSearch
+            #region ElasticSearch & Serilog
+            var elasticUri = new Uri(builder.Configuration[key: "ElasticConfiguration:Uri"]!);
 
-            var connectionSettings = new ConnectionSettings(new Uri("http://localhost:9200"));
+            var elasticConfiguration = new ElasticsearchSinkOptions(elasticUri)
+            {
+                IndexFormat = $"{builder.Configuration["ApplicationName"]}-logs-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!.Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}",
+            };
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .WriteTo.Console()
+                .WriteTo.Elasticsearch(elasticConfiguration)
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+
+            var connectionSettings = new ConnectionSettings(elasticUri);
             builder.Services.AddSingleton<IElasticService>(new ElasticService(connectionSettings));
 
             #endregion
@@ -89,6 +105,7 @@ namespace Web.Api
             }
 
             app.UseHttpsRedirection();
+
 
             app.UseAuthorization();
 

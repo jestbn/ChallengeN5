@@ -14,9 +14,8 @@ public class ElasticService : IElasticService
         _elasticClient = new ElasticClient(settings);
     }
 
-    public async Task<bool> IndexDocument(object model, CancellationToken cancellationToken)
+    public async Task LogService(object model, CancellationToken cancellationToken)
     {
-        var indexResponse = await _elasticClient.IndexDocumentAsync(model, cancellationToken);
-        return indexResponse.IsValid;
+        Serilog.Log.Information($"Man this :{model}");
     }
 }

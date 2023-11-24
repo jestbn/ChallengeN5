@@ -2,5 +2,5 @@
 
 public interface IElasticService
 {
-    Task<bool> IndexDocument(object model, CancellationToken cancellationToken);
+    Task LogService(object model, CancellationToken cancellationToken);
 }
