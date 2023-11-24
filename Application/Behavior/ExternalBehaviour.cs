@@ -18,7 +18,6 @@ public class ExternalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        //_elasticService.LogService(request!, cancellationToken); Implementation via Serilog
         var elasticResponse = await _elasticService.IndexDocument(request!, cancellationToken);
 
         var response = await next();
