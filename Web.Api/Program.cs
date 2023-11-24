@@ -20,21 +20,21 @@ namespace Web.Api
     {
         public static void Main(string[] args)
         {
-            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.ConfigureOptions<DatabaseOptionsSetup>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(
-                (ServiceProvider, DbContextOptionsBuilder) =>
+                (serviceProvider, dbContextOptionsBuilder) =>
                 {
-                    DatabaseOptions databaseOptions = ServiceProvider.GetService<IOptions<DatabaseOptions>>()!.Value;
-                    DbContextOptionsBuilder.UseSqlServer(databaseOptions.ConnectionString, sqlServerAction =>
+                    var databaseOptions = serviceProvider.GetService<IOptions<DatabaseOptions>>()!.Value;
+                    dbContextOptionsBuilder.UseSqlServer(databaseOptions.ConnectionString, sqlServerAction =>
                     {
                         sqlServerAction.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
                         sqlServerAction.CommandTimeout(databaseOptions.CommandTimeout);
                     });
-                    DbContextOptionsBuilder.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
-                    DbContextOptionsBuilder.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
+                    dbContextOptionsBuilder.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
+                    dbContextOptionsBuilder.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
                 });
 
             builder.Services.AddControllers();

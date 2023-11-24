@@ -18,14 +18,12 @@ public class ExternalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var elasticResponse = await _elasticService.IndexDocument(request!, cancellationToken);
+        await _elasticService.IndexDocument(request!, cancellationToken);
 
         var response = await next();
 
-        var kafkaresponse = await _producerService.ProduceMessageAsync(request!.ToString()!, cancellationToken);
-
-        Log.Information($"Manejando servicios externos de elasticsearch [{elasticResponse}] y kafka [{kafkaresponse.Status}]");
-
+        await _producerService.ProduceMessageAsync(request!.ToString()!, cancellationToken);
+        
         return response;
     }
 }
