@@ -1,7 +1,9 @@
-﻿namespace Infraestructure.Kafka;
+﻿using Confluent.Kafka;
+
+namespace Infraestructure.Kafka;
 
 public interface IKafkaProducerService
 {
-    Task<object> ProduceMessageAsync(string message);
+    Task<DeliveryResult<Null, string>> ProduceMessageAsync(string message, CancellationToken cancellationToken);
     void Dispose();
 }

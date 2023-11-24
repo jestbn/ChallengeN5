@@ -14,9 +14,9 @@ public class KafkaProducerService : IKafkaProducerService
         topicConfig(config);
     }
 
-    public async Task<object> ProduceMessageAsync(string message)
+    public async Task<DeliveryResult<Null, string>> ProduceMessageAsync(string message, CancellationToken cancellationToken)
     {
-        return await _producer.ProduceAsync(topic, new Message<Null, string> { Value = message });
+        return await _producer.ProduceAsync(topic, new Message<Null, string> { Value = message }, cancellationToken);
     }
     public void Dispose()
     {

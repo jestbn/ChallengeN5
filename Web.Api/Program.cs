@@ -81,7 +81,7 @@ namespace Web.Api
 
             var kafkaConfig = new ProducerConfig()
             {
-                BootstrapServers = "kafka:9093"
+                BootstrapServers = builder.Configuration[key: "KafkaConfiguration"]
             };
             builder.Services.AddSingleton<IKafkaProducerService>(new KafkaProducerService(kafkaConfig));
 
