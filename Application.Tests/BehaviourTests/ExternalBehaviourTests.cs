@@ -3,7 +3,6 @@ using Application.Permisos.Create;
 using Domain.Shared;
 using Infraestructure.ElasticSearch;
 using Infraestructure.Kafka;
-using Infraestructure.LogWrapper;
 using MediatR;
 
 namespace Application.Tests.BehaviourTests;
