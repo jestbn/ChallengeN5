@@ -23,12 +23,3 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Web.Api.dll"]
-
-# EF tools
-RUN dotnet tool install --global dotnet-ef --version 3.1.0
-# set PATH for ef tools
-ENV PATH="${PATH}:/root/.dotnet/tools"
-
-# Run database migrations
-#CMD ["dotnet", "ef", "database", "update"]
-CMD ["bash", "-c", "dotnet ef database update; dotnet run"]
