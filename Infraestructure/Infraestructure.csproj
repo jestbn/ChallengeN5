@@ -14,4 +14,16 @@
       <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="LogWrapper\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="LogWrapper\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="LogWrapper\**" />
+    </ItemGroup>
+
 </Project>
