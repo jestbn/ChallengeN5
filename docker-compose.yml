@@ -6,12 +6,12 @@
       context: .
       dockerfile: Web.Api/Dockerfile
     ports:
-      - "8080:80"  # Map your API port to the host machine
-    # depends_on:
-    #   - db
-    #   - elastic
-    #   - kafka
-    #   - zoo
+      - "8080:80"
+    depends_on:
+      - mssql
+      - elasticsearch
+      - kafka
+      - zookeeper
     environment:
       - DB_HOST=mssql
       - DB_NAME=challenge
@@ -27,7 +27,7 @@
       ACCEPT_EULA: Y
       
     ports:
-      - "1433:1433"  # Map the SQL Server port to the host machine
+      - "1433:1433"
     volumes:
       - mssql-data:/var/opt/mssql
     networks:
@@ -39,7 +39,7 @@
     environment:
       - discovery.type=single-node
     ports:
-      - "9200:9200"  # Map the Elasticsearch HTTP port to the host machine
+      - "9200:9200"
     networks:
       - default-network
 
@@ -54,7 +54,7 @@
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "your-topic:1:1"
     ports:
-      - "9092:9092"  # Map the Kafka port to the host machine
+      - "9092:9092"
     volumes:
       - kafka-data:/var/lib/kafka/data
     depends_on:
@@ -66,7 +66,7 @@
     container_name: zoo
     image: wurstmeister/zookeeper:3.4.6
     ports:
-      - "2181:2181"  # Map the Zookeeper port to the host machine
+      - "2181:2181"
     networks:
       - default-network
 

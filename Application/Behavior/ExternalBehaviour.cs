@@ -18,12 +18,11 @@ public class ExternalBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         Console.WriteLine("Acción global antes de la ejecución del manejador");
-        _elasticService.IndexDocument(request, cancellationToken);
-        
+        var elasticserviceresponse = await _elasticService.IndexDocument(request, cancellationToken);
+
         var response = await next();
 
-        _producerService.ProduceMessageAsync(request.ToString());
-        Console.WriteLine("Acción global después de la ejecución del manejador");
+        var kafkaresponse = await _producerService.ProduceMessageAsync(request.ToString());
 
         return response;
     }

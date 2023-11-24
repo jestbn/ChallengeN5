@@ -16,8 +16,7 @@ public class ElasticService : IElasticService
 
     public async Task<bool> IndexDocument(object model, CancellationToken cancellationToken)
     {
-        /*var indexResponse = await _elasticClient.IndexDocumentAsync(model, cancellationToken);
-        return indexResponse.IsValid;*/
-        return true;
+        var indexResponse = await _elasticClient.IndexDocumentAsync(model, cancellationToken);
+        return indexResponse.IsValid;
     }
 }
