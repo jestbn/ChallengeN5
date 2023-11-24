@@ -20,7 +20,7 @@ namespace Web.Api.Options
             {
                 var connectionString = _configuration.GetConnectionString("Database");
 
-                options.ConnectionString = connectionString;
+                options.ConnectionString = connectionString!;
 
             }
             else

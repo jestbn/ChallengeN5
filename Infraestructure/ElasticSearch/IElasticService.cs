@@ -2,5 +2,5 @@
 
 public interface IElasticService
 {
-    Task LogService(object model, CancellationToken cancellationToken);
+    void LogService(object model, CancellationToken cancellationToken);
 }

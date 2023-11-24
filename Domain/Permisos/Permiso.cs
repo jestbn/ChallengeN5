@@ -2,7 +2,7 @@
 {
     public class Permiso
     {
-        public Permiso(string NombreEmpleado, string ApellidoEmpleado, DateTime FechaPermiso)//, TipoPermiso.TipoPermiso tipoPermiso)
+        public Permiso(string NombreEmpleado, string ApellidoEmpleado, DateTime FechaPermiso)
         {
 
             this.NombreEmpleado = NombreEmpleado;

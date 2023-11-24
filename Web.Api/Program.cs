@@ -81,9 +81,9 @@ namespace Web.Api
 
             var kafkaConfig = new ProducerConfig()
             {
-                BootstrapServers = "http://localhost:9092"
+                BootstrapServers = "kafka:9093"
             };
-            builder.Services.AddSingleton<IKafkaProducerService>(new KafkaProducerServiceService(kafkaConfig));
+            builder.Services.AddSingleton<IKafkaProducerService>(new KafkaProducerService(kafkaConfig));
 
             #endregion
 
@@ -95,7 +95,7 @@ namespace Web.Api
                 app.UseSwaggerUI();
             }
 
-            using (var serviceScope = app.Services.GetService<IServiceScopeFactory>()
+            using (var serviceScope = app.Services.GetService<IServiceScopeFactory>()!
                 .CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();

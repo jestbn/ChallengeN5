@@ -14,8 +14,8 @@ public class ElasticService : IElasticService
         _elasticClient = new ElasticClient(settings);
     }
 
-    public async Task LogService(object model, CancellationToken cancellationToken)
+    public void LogService(object model, CancellationToken cancellationToken)
     {
-        Serilog.Log.Information($"Man this :{model}");
+        Serilog.Log.Information($"Se guardo: :{model}");
     }
 }
