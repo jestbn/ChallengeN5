@@ -13,7 +13,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5A269BD5-EE91-4C2B-A3B8-16513B339695}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Api.Tests", "Web.Api.Tests\Web.Api.Tests.csproj", "{DF2299BC-8FBC-492F-9316-DFBCF3F9F7B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Api.Tests", "Web.Api.Tests\Web.Api.Tests.csproj", "{DF2299BC-8FBC-492F-9316-DFBCF3F9F7B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infraestructure", "Infraestructure\Infraestructure.csproj", "{9B78A006-7A48-48AE-BE33-E414B04CE8AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55249366-5B23-4922-BD9C-EC5528F70F98}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1CAF82E1-932D-49AC-B85E-29697B77A953}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +50,14 @@ Global
 		{DF2299BC-8FBC-492F-9316-DFBCF3F9F7B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF2299BC-8FBC-492F-9316-DFBCF3F9F7B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF2299BC-8FBC-492F-9316-DFBCF3F9F7B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B78A006-7A48-48AE-BE33-E414B04CE8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B78A006-7A48-48AE-BE33-E414B04CE8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B78A006-7A48-48AE-BE33-E414B04CE8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B78A006-7A48-48AE-BE33-E414B04CE8AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CAF82E1-932D-49AC-B85E-29697B77A953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CAF82E1-932D-49AC-B85E-29697B77A953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CAF82E1-932D-49AC-B85E-29697B77A953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CAF82E1-932D-49AC-B85E-29697B77A953}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

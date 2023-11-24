@@ -29,8 +29,10 @@ namespace Application.Permisos.Create
             Permiso permiso = new(
                 NombreEmpleado: request.Nombre,
                 ApellidoEmpleado: request.Apellido,
-                FechaPermiso: request.Fecha, 
-                tipoPermiso: tipo);
+                FechaPermiso: request.Fecha)
+            {
+                TipoPermiso = tipo
+            };
 
             _permisoRepository.Add(permiso);
 

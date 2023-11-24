@@ -1,5 +1,10 @@
+using Application.Behavior;
 using Application.Permisos.Create;
+using Confluent.Kafka;
 using Domain.Abstractions;
+using Infraestructure.ElasticSearch;
+using Infraestructure.Kafka;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Nest;
@@ -35,10 +40,10 @@ namespace Web.Api
             builder.Services.AddSwaggerGen();
 
             #region MediatR
-            
+            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExternalBehaviour<,>));
             builder.Services.AddMediatR(media => media.RegisterServicesFromAssembly(typeof(Application.Permisos.Create.CreatePermisoCommandHandler).Assembly));
             builder.Services.AddTransient<CreatePermisoCommandHandler>();
-            
+
             #endregion
 
             #region AppServices
@@ -46,16 +51,24 @@ namespace Web.Api
             builder.Services.AddTransient<IPermisoRepository, PermisoRepository>();
             builder.Services.AddTransient<ITipoPermisoRepository, TipoPermisoRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
+
             #endregion
 
             #region ElasticSearch
 
-            var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-                .DefaultIndex("default");
-            var client = new ElasticClient(settings);
-            builder.Services.AddSingleton<IElasticClient>(client);
-            
+            var connectionSettings = new ConnectionSettings(new Uri("http://localhost:9200"));
+            builder.Services.AddSingleton<IElasticService>(new ElasticService(connectionSettings));
+
+            #endregion
+
+            #region Kafka
+
+            var kafkaConfig = new ProducerConfig()
+            {
+                BootstrapServers = "http://localhost:9092"
+            };
+            builder.Services.AddSingleton<IKafkaProducerService>(new KafkaProducerServiceService(kafkaConfig));
+
             #endregion
 
             WebApplication app = builder.Build();
@@ -64,6 +77,15 @@ namespace Web.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            }
+
+            using (var serviceScope = app.Services.GetService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                if (!context.Database.CanConnect()) context.Database.Migrate(); else context.Database.EnsureCreated();
+
             }
 
             app.UseHttpsRedirection();
