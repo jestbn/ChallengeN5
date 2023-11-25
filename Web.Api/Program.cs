@@ -41,6 +41,17 @@ namespace Web.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
+            });
+
             #region MediatR
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExternalBehaviour<,>));
             builder.Services.AddMediatR(media => media.RegisterServicesFromAssembly(typeof(Application.Permisos.Create.CreatePermisoCommandHandler).Assembly));
@@ -89,11 +100,11 @@ namespace Web.Api
 
             WebApplication app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            //}
 
             using (var serviceScope = app.Services.GetService<IServiceScopeFactory>()!
                 .CreateScope())
@@ -106,6 +117,7 @@ namespace Web.Api
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 

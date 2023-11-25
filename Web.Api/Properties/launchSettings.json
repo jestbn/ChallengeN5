@@ -21,11 +21,12 @@
       "applicationUrl": "https://localhost:7143;http://localhost:5062"
     },
     "IIS Express": {
-      "commandName": "IISExpress",
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "dev"
-      }
+        "commandName": "IISExpress",
+        "launchBrowser": true,
+        "launchUrl": "swagger",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "dev"
+        }
     },
     "Docker": {
       "commandName": "Docker",

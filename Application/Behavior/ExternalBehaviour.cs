@@ -1,7 +1,6 @@
 ﻿using Infraestructure.ElasticSearch;
 using Infraestructure.Kafka;
 using MediatR;
-using Serilog;
 
 namespace Application.Behavior;
 

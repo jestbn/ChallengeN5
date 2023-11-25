@@ -1,10 +1,8 @@
 ﻿using Application.Permisos.Create;
 using Application.Permisos.Get;
 using Application.Permisos.Update;
-using Infraestructure.ElasticSearch;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
 
 namespace Web.Api.Controllers
 {
