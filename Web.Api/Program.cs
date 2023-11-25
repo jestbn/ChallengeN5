@@ -100,11 +100,8 @@ namespace Web.Api
 
             WebApplication app = builder.Build();
 
-            //if (app.Environment.IsDevelopment())
-            //{
             app.UseSwagger();
             app.UseSwaggerUI();
-            //}
 
             using (var serviceScope = app.Services.GetService<IServiceScopeFactory>()!
                 .CreateScope())
