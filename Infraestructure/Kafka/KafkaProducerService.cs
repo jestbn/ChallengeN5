@@ -7,33 +7,33 @@ namespace Infraestructure.Kafka;
 public class KafkaProducerService : IKafkaProducerService
 {
     private readonly IProducer<Null, string> _producer;
-    private const string topic = "defaultTopic";
+    private const string Topic = "defaultTopic";
     public KafkaProducerService(ProducerConfig config)
     {
         _producer = new ProducerBuilder<Null, string>(config).Build();
-        topicConfig(config);
+        TopicConfig(config);
     }
 
     public async Task<DeliveryResult<Null, string>> ProduceMessageAsync(string message, CancellationToken cancellationToken)
     {
-        return await _producer.ProduceAsync(topic, new Message<Null, string> { Value = message }, cancellationToken);
+        return await _producer.ProduceAsync(Topic, new Message<Null, string> { Value = message }, cancellationToken);
     }
     public void Dispose()
     {
         _producer?.Dispose();
     }
 
-    private void topicConfig(ProducerConfig config)
+    private static void TopicConfig(ProducerConfig config)
     {
         using var adminClient = new AdminClientBuilder(config).Build();
         try
         {
-            var topicMetadata = adminClient.GetMetadata(topic, TimeSpan.FromSeconds(10));
-            if (topicMetadata.Topics.Find(t => t.Topic == topic) == null)
+            var topicMetadata = adminClient.GetMetadata(Topic, TimeSpan.FromSeconds(10));
+            if (topicMetadata.Topics.Find(t => t.Topic == Topic) == null)
             {
                 var topicConfig = new TopicSpecification
                 {
-                    Name = topic,
+                    Name = Topic,
                     NumPartitions = 1,
                     ReplicationFactor = 1
                 };
@@ -42,7 +42,7 @@ public class KafkaProducerService : IKafkaProducerService
             }
             else
             {
-                Log.Information($"El topic '{topic}' ya existe.");
+                Log.Information($"El topic '{Topic}' ya existe.");
             }
         }
         catch (CreateTopicsException e)

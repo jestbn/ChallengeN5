@@ -72,7 +72,7 @@ namespace Web.Api
 
             var elasticConfiguration = new ElasticsearchSinkOptions(elasticUri)
             {
-                IndexFormat = $"{builder.Configuration["ApplicationName"]}-logs-{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!.Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}",
+                IndexFormat = $"{builder.Configuration["ApplicationName"]}-logs-{DateTime.UtcNow:yyyy-MM}",
             };
 
             Log.Logger = new LoggerConfiguration()

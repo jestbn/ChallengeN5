@@ -16,7 +16,7 @@ namespace Web.Api.Options
         public void Configure(DatabaseOptions options)
         {
             var env = Environment.GetEnvironmentVariable(environment);
-            if (env == "dev")
+            if (env is "dev" or null)
             {
                 var connectionString = _configuration.GetConnectionString("Database");
 
