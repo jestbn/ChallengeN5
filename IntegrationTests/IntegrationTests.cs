@@ -1,5 +1,3 @@
-using Infraestructure.ElasticSearch;
-using Infraestructure.Kafka;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,8 +25,6 @@ public class IntegrationTests
                 }).ConfigureServices(services =>
                 {
                     services.RemoveAll(typeof(ApplicationDbContext));
-                    // services.RemoveAll(typeof(IKafkaProducerService));
-                    // services.RemoveAll(typeof(IElasticService));
                     services.AddDbContext<ApplicationDbContext>(options =>
                     {
                         options.UseInMemoryDatabase("TestDb");
